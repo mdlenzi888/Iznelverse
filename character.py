@@ -15,6 +15,7 @@ token_request = requests.post('https://us.battle.net/oauth/token',
                               data=data,
                               auth=(f'{client_id}', f'{client_secret}')
                               )
+print(token_request)
 access_token = token_request.json()['access_token']
 
 CURRENT_PVP_SEASON = 32
