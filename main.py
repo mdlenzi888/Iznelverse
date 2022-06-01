@@ -1,5 +1,6 @@
 import urllib.error
 import datetime as dt
+import pytz
 from character import Character
 from character_list import characters
 from flask import Flask, render_template, redirect, url_for
@@ -18,12 +19,13 @@ current_time = ""
 def update_characters():
     global current_time
 
-    now = dt.datetime.now()
-    current_time = now.strftime('%#m/%#d/%Y %#I:%M%p')
     for key in characters:
         char_object = Character(key)
         character_objects[key] = char_object
         print(char_object.name)
+    central_time = pytz.timezone('US/Central')
+    now = dt.datetime.now(central_time)
+    current_time = now.strftime('%#m/%#d/%Y %#I:%M%p')
 
 
 update_characters()
