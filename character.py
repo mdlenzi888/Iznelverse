@@ -11,10 +11,11 @@ data = {
 
 client_id = os.environ.get("WOW_ID")
 client_secret = os.environ.get("WOW_SECRET")
-access_token = requests.post('https://us.battle.net/oauth/token',
-                             data=data,
-                             auth=(f'{client_id}', f'{client_secret}')
-                             ).json()['access_token']
+token_request = requests.post('https://us.battle.net/oauth/token',
+                              data=data,
+                              auth=(f'{client_id}', f'{client_secret}')
+                              )
+access_token = token_request.json()['access_token']
 
 CURRENT_PVP_SEASON = 32
 CURRENT_MYTHIC_SEASON = 7
