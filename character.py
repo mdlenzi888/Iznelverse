@@ -9,8 +9,8 @@ data = {
     'grant_type': 'client_credentials'
 }
 
-client_id = os.environ["WOW_ID"]
-client_secret = os.environ["WOW_SECRET"]
+client_id = os.environ.get("WOW_ID")
+client_secret = os.environ.get("WOW_SECRET")
 access_token = requests.post('https://us.battle.net/oauth/token',
                              data=data,
                              auth=(f'{client_id}', f'{client_secret}')
@@ -216,8 +216,8 @@ class Character:
 
     def get_raid_logs(self):
         try:
-            logs_id = os.environ["LOGS_ID"]
-            logs_secret = os.environ["LOGS_SECRET"]
+            logs_id = os.environ.get("LOGS_ID")
+            logs_secret = os.environ.get("LOGS_SECRET")
             logs_data = {
                 'grant_type': 'client_credentials'
             }
