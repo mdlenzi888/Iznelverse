@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <title>Iznelverse</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <!-- Bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
+    <!-- Wowhead scripts -->
+    <script>const whTooltips = {iconizeLinks: false};</script>
+    <script src="https://wow.zamimg.com/widgets/power.js"></script>
+
+    <!-- JQuery & Loading Page -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">// <![CDATA[
+        function loading(){
+            $("#loading").show();
+            $("#content").hide();
+        }
+// ]]></script>
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-sm fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="{{url_for('home')}}">Iznelverse</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                ...
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('stats', character='bontoto') }}">World of Warcraft</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">TBD</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">TBD</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% set navigation_bar = [
+        (url_for('stats', character='bontoto'),'bontoto'),
+        (url_for('stats', character='ghoot'),'ghoot'),
+        (url_for('stats', character='tintum'),'tintum'),
+        (url_for('stats', character='munty'),'munty'),
+        (url_for('stats', character='quidd'),'quidd'),
+    ] %}
+    {% set active_page = character.name %}
+
+    <div id="loading"></div>
+
+    <div id="content">
+        <nav id="sidebarMenu" class="collapse d-lg-block sidebar">
+                <div class="list-group">
+                    {% for href, id in navigation_bar %}
+                    <a href="{{ href|e }}" class="character list-group-item list-group-item-action py-2 ripple {% if id == active_page %}active{% endif %}"><span>{{ id.title() }}</span></a>
+                    {% endfor %}
+                </div>
+
+                <div class="portrait-box" style="background: url(/static/images/characters/{{ character.name }}-body.jpg); background-position: center; background-size: 350%;">
+                    <div class="portrait-header">
+                        <img class="class-icon" src="/static/images/specs/spec-img-{{ character.spec_id }}.jpg">
+                        <h5 class="class {{ character.char_class.lower().replace(' ', '-') }}">{{ character.spec }}</h5>
+                        <div>
+                            <a href="https://www.worldofwarcraft.com/en-us/character/us/{{ character.realm }}/{{ character.name }}/" title="WoW Armory"><img class="class-icon" src="/static/images/external-sites/wow-armory.png"></a>
+                            <a href="https://www.warcraftlogs.com/character/id/{{ character.char_id }}" title="Warcraft Logs"><img class="class-icon" src="/static/images/external-sites/warcraft-logs.png"></a>
+                            <a href="https://raider.io/characters/us/{{ character.realm }}/{{ character.name }}/" title="Raider.io"><img class="class-icon" src="/static/images/external-sites/raider-io.jpg"></a>
+                        </div>
+                    </div>
+                </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="character-banner">
+                <div class="row">
+                    <div class="character-avatar-box col-2">
+                        <div class="avatar-wrapper">
+                            <img class="character-avatar" src="/static/images/characters/{{ character.name }}-head.jpg">
+                            <h5 class="level banner-text">{{ character.lvl }}</h5>
+                        </div>
+                    </div>
+                    <div class="character-titles col-10">
+                        <h2 class="title-name banner-text">{{ character.name.title() }}</h2>
+                        <h3>
+                            <span class="title-guild banner-text">{{ character.guild }}</span>
+                            <span class="title-realm banner-text"> - {{ character.realm.title() }} (US)</span>
+                            <div class="update-div">
+                                <a class="update" href="{{ url_for('update') }}" onclick="loading();"><button class="btn btn-secondary">Update</button></a>
+                                <p class="update-time">Last Updated: {{ time }}</p>
+                            </div>
+                        </h3>
+                        <h3 class="title-class banner-text {{ character.char_class.lower().replace(' ', '-') }}">{{ character.cov }} {{ character.race }} {{ character.char_class }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats row">
+                <div class="col-xl-6">
+                    <div class="card">
+                        <h3 class="card-header">
+                            <span>Gear</span>
+                            <span class="header-right">iLvl: {{ character.ilvl }}</span>
+                        </h3>
+                        <div class="card-body">
+                            {% for item in character.gear %}
+                            <a class="gear" href="//www.wowhead.com/item={{ item['id'] }}&ilvl={{ item['ilvl'] }}">
+                                <div class="row gear-row">
+                                        <div class="col-sm-10 align-self-center">
+                                            <img class="gear-icon" src="{{ item['img'] }}">
+                                            <p class="gear-name {{ item['quality'] }}">{{ item['name'] }}</p>
+                                        </div>
+                                        <div class="col-sm-2 align-self-center">
+                                            <p class="gear-lvl {{ item['quality'] }}">{{ item['ilvl'] }}</p>
+                                        </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-header">Talents</h3>
+                        <div class="card-body">
+                            <div class="pve-talents">
+                                {% for talent in character.talents['pve'] %}
+                                <a href="//www.wowhead.com/spell={{ talent['id'] }}"><img class="talent-icon" src="{{ talent['img'] }}"></a>
+                                {% endfor %}
+                            </div>
+                            <div class="pvp-talents">
+                                {% for talent in character.talents['pvp'] %}
+                                <a href="//www.wowhead.com/spell={{ talent['id'] }}"><img class="talent-icon" src="{{ talent['img'] }}"></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="card">
+                        <h3 class="card-header">PvP Ratings</h3>
+                        <div class="card-body">
+                            <div class="row">
+                                {% for rating in character.pvp_ratings %}
+                                <div class="pvp-rating-col col-sm-4">
+                                    <h3 class="pvp-rating-title">{{ rating['bracket'] }}</h3>
+                                    <div class="pvp-rating-box">
+                                        <img src="/static/images/pvp-tiers/tier-{{ rating['tier'] }}.jpg">
+                                        <h3 class="pvp-rating">{{ rating['rating'] }}</h3>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-header">Raid Progression</h3>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="raid-instance col-sm-5">
+                                    <img class="raid-icon" src="/static/images/instances/instance-{{ character.raid_logs['id'] }}.jpg">
+                                    <h3 class="raid-progression">{{ character.raid_logs['progress']['count'] }} - {{ character.raid_logs['progress']['difficulty'] }}</h3>
+                                </div>
+                                <div class="raid-bosses col-sm-7">
+                                    {% for boss in character.raid_logs['bosses'] %}
+                                    <div class="boss-group">
+                                        <p class="parse {{ boss['quality'] }}">{{ boss['parse'] }}</p>
+                                        <img class="talent-icon" src="/static/images/raid-bosses/{{ boss['id'] }}.jpg">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-header">
+                            <span>Mythic Keystones</span>
+                            <span class="header-right {{ character.mythic_plus['quality'] }}">{{ character.mythic_plus['score'] }}</span>
+                        </h3>
+                        <div class="card-body dungeon-list">
+                            {% for dungeon, value in character.mythic_plus['instances'].items() %}
+                            <div class="row">
+                                <div class="col-sm-8 align-self-center">
+                                    <img class="dungeon-icon" src="/static/images/instances/instance-{{ value['id'] }}.jpg">
+                                    <p class="dungeon-name">{{ dungeon }}</p>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <p class="dungeon-lvl">{{ value['highest_lvl'] }}</p>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <p class="dungeon-score {{ dungeon.quality }}">{{ value['score'] }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2022 Matthew Lenzi
+        </div>
+    </div>
+</body>
+</html>

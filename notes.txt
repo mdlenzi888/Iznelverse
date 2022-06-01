@@ -1,0 +1,86 @@
+Similar to WarcraftLogs:
+
+	Character portrait on left side panel
+		includes spec name/color/icon at top of image, as well as the external links
+		moves down with you when you scroll the page
+	Div Sections with headers and tooltips
+		Gear (also says ilvl in header)
+		Talents
+		Raid Progression (with raid/boss icons, instead of number of kills, list best dps %)
+		PvP Ratings (with bracket icons)
+		Mythic Plus ratings per dungeon (with dungeon icons and text color)
+
+----------------------------------
+NOTES
+- Add Footer and Header templates, incase I ever want to add different games
+- To prevent fetching API every reload, try creating a function that updates all of that stuff and stores all info into each Character object. Then add Reload Page button to Character title div to re-fetch APIs.
+- Make sure you use a lot of divs to keep everything formatted similarly
+- Have 2 columns beyond certain screen size, 1 column below. Also make left side panel a drop-down button if the screen is extra small.
+----------------------------------
+DATA NEEDED
+
+Manual Input
++ Name
++ Realm (create jinja list for all my characters, with name and realm as the variables)
++ Region (static)
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/bontoto?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ Faction
++ Class
++ Race
++ Spec
++ Guild
++ Level
++ Equipped ilvl
++ Covenant
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/bontoto/specializations?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ Talents (check if active_specialization = specialization)
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/bontoto/equipment?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ Equipped Gear
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/bontoto/pvp-bracket/2v2?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ 2v2 Rating
++ Rating Tier ID
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/bontoto/pvp-bracket/3v3?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ 3v3 Rating
++ Rating Tier ID
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/bontoto/pvp-bracket/rbg?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ rBG Rating
++ Rating Tier ID
+
+https://us.api.blizzard.com/profile/wow/character/tichondrius/charactername/mythic-keystone-profile/season/17?namespace=profile-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ Mythic+ Score
++ Mythic+ Score Per Dungeon
++ Mythic+ Highest Keystone Per Dungeon
++ Rating colors
+
+warcraft logs api request (need to manually input character ID number)
++ Raid Bosses Killed
++ Raid Parse Per Boss
+---------------------------------
+IMAGES NEEDED
+
+https://us.api.blizzard.com/data/wow/media/playable-specialization/262?namespace=static-us&locale=en_US&access_token=USOyekiwNxskzlLiWqndYcY3qdqcq0Etxq
++ Spec
+
+- Talents Images
+- Character Headshot
+- Character Full-body
+- Gear
+- Dungeons
+- Raid
+- Raid Bosses
+- PvP Brackets
+
+----------------------------------
+STEPS
+1. Create layout with placeholder images and data
+2. Find all needed data/images.
+3. Collect all API data for specific character in one class when program is first run.
+4. Feed data into website
+5. Add "Update" button.
+		
