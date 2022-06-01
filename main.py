@@ -3,9 +3,12 @@ import datetime as dt
 from character import Character
 from character_list import characters
 from flask import Flask, render_template, redirect, url_for
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 character_objects = {}
 current_time = ""
@@ -27,16 +30,19 @@ update_characters()
 
 
 @app.route('/')
+@cross_origin()
 def home():
     return redirect(url_for('stats', character='bontoto'))
 
 
 @app.route('/stats/<character>')
+@cross_origin()
 def stats(character):
     return render_template('index.html', character=character_objects[character], time=current_time)
 
 
 @app.route('/update')
+@cross_origin()
 def update():
     try:
         update_characters()
