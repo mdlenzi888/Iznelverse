@@ -173,14 +173,14 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="raid-instance col-sm-5">
-                                    <img class="raid-icon" src="/static/images/instances/instance-{{ character.raid_logs['id'] }}.jpg">
+                                    <img class="raid-icon" src="/static/images/instances/instance-{{ character.raid_logs['id'] }}.jpg" title="{{ character.raid_logs['name'] }}">
                                     <h3 class="raid-progression">{{ character.raid_logs['progress']['count'] }} - {{ character.raid_logs['progress']['difficulty'] }}</h3>
                                 </div>
                                 <div class="raid-bosses col-sm-7">
                                     {% for boss in character.raid_logs['bosses'] %}
                                     <div class="boss-group">
                                         <p class="parse {{ boss['quality'] }}">{{ boss['parse'] }}</p>
-                                        <img class="talent-icon" src="/static/images/raid-bosses/{{ boss['id'] }}.jpg">
+                                        <img class="talent-icon" src="/static/images/raid-bosses/{{ boss['id'] }}.jpg" title="{{ boss['name'] }}">
                                     </div>
                                     {% endfor %}
                                 </div>
