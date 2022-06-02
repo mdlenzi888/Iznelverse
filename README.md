@@ -1,5 +1,6 @@
 # Iznelverse
 Hub for my gaming profiles and stats. Built with Flask.
+https://iznelverse.herokuapp.com/
 
 *IMPORTANT*
 
