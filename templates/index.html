@@ -24,7 +24,7 @@
     <script type="text/javascript">// <![CDATA[
         function loading(){
             $("#loading").show();
-            $("#content").hide();
+            $("#stats-content").hide();
         }
 // ]]></script>
 
@@ -54,22 +54,16 @@
         </div>
     </nav>
 
-    {% set navigation_bar = [
-        (url_for('stats', character='bontoto'),'bontoto'),
-        (url_for('stats', character='ghoot'),'ghoot'),
-        (url_for('stats', character='tintum'),'tintum'),
-        (url_for('stats', character='munty'),'munty'),
-        (url_for('stats', character='quidd'),'quidd'),
-    ] %}
-    {% set active_page = character.name %}
-
-    <div id="loading"></div>
+<!--    {% set navigation_bar = [] %}-->
+<!--    {% for key in character_list %}-->
+<!--        navigation_bar.append((url_for('stats', character=key), key))-->
+<!--    {% endfor %}-->
 
     <div id="content">
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar">
                 <div class="list-group">
-                    {% for href, id in navigation_bar %}
-                    <a href="{{ href|e }}" class="character list-group-item list-group-item-action py-2 ripple {% if id == active_page %}active{% endif %}"><span>{{ id.title() }}</span></a>
+                    {% for key in character_list %}
+                    <a href="{{ url_for('stats', character=key)|e }}" class="character list-group-item list-group-item-action py-2 ripple {% if key == active_page %}active{% endif %}"><span>{{ key.title() }}</span></a>
                     {% endfor %}
                 </div>
 
@@ -98,10 +92,10 @@
                     <div class="character-titles col-10">
                         <h2 class="title-name banner-text">{{ character.name.title() }}</h2>
                         <h3>
-                            <span class="title-guild banner-text">{{ character.guild }}</span>
+                            <span class="title-guild-{{ character.faction.lower() }} banner-text">{{ character.guild }}</span>
                             <span class="title-realm banner-text"> - {{ character.realm.title() }} (US)</span>
                             <div class="update-div">
-                                <a class="update" href="{{ url_for('update') }}" onclick="loading();"><button class="btn btn-secondary">Update</button></a>
+                                <a class="update" href="{{ url_for('update', character=character.name) }}" onclick="loading();"><button class="btn btn-secondary">Update</button></a>
                                 <p class="update-time">Last Updated: {{ time }}</p>
                             </div>
                         </h3>
@@ -110,7 +104,9 @@
                 </div>
             </div>
 
-            <div class="stats row">
+            <div id="loading"></div>
+
+            <div id="stats-content" class="stats row">
                 <div class="col-xl-6">
                     <div class="card">
                         <h3 class="card-header">

@@ -4,6 +4,9 @@ characters = {
     'tintum': ('tichondrius', '53755063'),
     'munty': ('tichondrius', '57112530'),
     'quidd': ('tichondrius', '53939923'),
-    # 'pumms': ('hyjal', '53031121'),
-    # 'gidden': ('bladefist', '22038569'),
+    'sphesle': ('bladefist', '23559568'),
+    'gidden': ('bladefist', '22038569'),
+    'madomie': ('bladefist', '4913849'),
+    'frewdin': ('bladefist', '4913877'),
+    'rundy': ('bladefist', '58222217'),
 }

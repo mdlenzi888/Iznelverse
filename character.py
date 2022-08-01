@@ -29,7 +29,8 @@ CURRENT_MYTHIC_DUNGEONS = [('De Other Side', 377),
                            ("Tazavesh: Streets of Wonder", 391),
                            ("Theater of Pain", 382),
                            ("The Necrotic Wake", 376)]
-CURRENT_RAID = 29
+CURRENT_RAID = ('Sepulcher of the First Ones', 1195)
+RAID_DIFFICULTIES = ['Raid Finder', 'Normal', 'Heroic', 'Mythic']
 
 
 class Character:
@@ -100,6 +101,8 @@ class Character:
             self.lvl = json_char_info['level']
             self.ilvl = json_char_info['equipped_item_level']
             self.cov = json_char_info['covenant_progress']['chosen_covenant']['name']
+
+            print("Got Char Info")
         except urllib.error.URLError:
             self.get_char_info()
 
@@ -130,6 +133,7 @@ class Character:
                              'name': talent['selected']['spell_tooltip']['spell']['name'],
                              'img': json_response_talent_img['assets'][0]['value']}
                         )
+            print("Got Talents")
         except urllib.error.URLError:
             self.get_talents()
 
@@ -149,13 +153,14 @@ class Character:
                     'quality': item['quality']['name'].lower(),
                     'img': json_response_gear_img['assets'][0]['value'],
                 })
+            print("Got Gear")
         except urllib.error.URLError:
             self.get_gear()
 
     def get_pvp_ratings(self):
-        try:
-            brackets = ['2v2', '3v3', 'rBG']
-            for bracket in brackets:
+        brackets = ['2v2', '3v3', 'rBG']
+        for bracket in brackets:
+            try:
                 response_pvp_ratings = urlopen(
                     f"https://us.api.blizzard.com/profile/wow/character/{self.realm}/{self.name}/pvp-bracket/{bracket.lower()}?namespace=profile-us&locale=en_US&access_token={access_token}")
                 json_pvp_ratings = json.loads(response_pvp_ratings.read())
@@ -172,8 +177,13 @@ class Character:
                         'rating': 0,
                         'tier': 1
                     })
-        except urllib.error.URLError:
-            self.get_pvp_ratings()
+            except urllib.error.URLError:
+                self.pvp_ratings.append({
+                    'bracket': bracket,
+                    'rating': 0,
+                    'tier': 1
+                })
+        print("Got PVP Ratings")
 
     def get_mythic_plus(self):
         try:
@@ -211,7 +221,7 @@ class Character:
                     self.mythic_plus['instances'][dungeon['dungeon']['name']]['score'] = round(
                         dungeon['map_rating']['rating'])
                     self.mythic_plus['instances'][dungeon['dungeon']['name']]['quality'] = quality
-
+            print("Got Mythic Ratings")
         except (urllib.error.HTTPError, urllib.error.URLError):
             pass
 
@@ -245,17 +255,13 @@ class Character:
                                               json={'query': my_data})
             json_raid_logs = response_raid_logs.json()
 
-            raid = \
-                json_raid_logs['data']['characterData']['character']['gameData']['progression']['expansions'][-1][
-                    'instances'][
-                    -1]
+            raid = json_raid_logs['data']['characterData']['character']['zoneRankings']
 
-            self.raid_logs['name'] = raid['instance']['name']
-            self.raid_logs['id'] = raid['instance']['id']
-            self.raid_logs['progress']['difficulty'] = raid['modes'][-1]['difficulty']['name']
-            self.raid_logs['progress'][
-                'count'] = f"{raid['modes'][-1]['progress']['completed_count']}/{raid['modes'][-1]['progress']['total_count']}"
+            self.raid_logs['name'] = CURRENT_RAID[0]
+            self.raid_logs['id'] = CURRENT_RAID[1]
+            self.raid_logs['progress']['difficulty'] = RAID_DIFFICULTIES[raid['difficulty'] - 1]
 
+            completed_count = 0
             for boss in json_raid_logs['data']['characterData']['character']['zoneRankings']['rankings']:
                 if boss['rankPercent'] is None:
                     self.raid_logs['bosses'].append({
@@ -265,6 +271,7 @@ class Character:
                         'quality': 'grey'
                     })
                 else:
+                    completed_count += 1
                     parse = round(boss['rankPercent'])
                     if parse >= 100:
                         quality = 'gold'
@@ -284,5 +291,10 @@ class Character:
                         'parse': parse,
                         'quality': quality
                     })
+            total_count = len(self.raid_logs['bosses'])
+            self.raid_logs['progress'][
+                'count'] = f"{completed_count}/{total_count}"
+
+            print("Got Raid Logs")
         except urllib.error.URLError:
             self.get_raid_logs()

@@ -12,9 +12,10 @@ div#loading {
     position: relative;
     margin: 100px auto;
     width: 100px;
-    height: 100px;
+    height: 1100px;
     display: none;
-    background: url('/static/images/loading.gif') center transparent;
+    background: url('/static/images/loading.gif') top transparent;
+    background-repeat: no-repeat;
     cursor: wait;
 }
 
@@ -44,13 +45,13 @@ div#loading {
 }
 
 .sidebar {
-    position: fixed;
+    position: absolute;
     display: inline-block;
     top: 56px;
     left: 0;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
     width: 240px;
-    height: 100%;
+    height: 1500px;
     z-index: 100;
     overflow: hidden;
 }
@@ -176,7 +177,11 @@ div#loading {
     font-size: 45px;
 }
 
-.title-guild {
+.title-guild-alliance {
+    color: blue;
+}
+
+.title-guild-horde {
     color: red;
 }
 
@@ -225,6 +230,7 @@ a, a:hover {
     padding: 0;
     margin: 0;
     width: 100%;
+    height: 1300px;
 }
 
 .card {
@@ -404,6 +410,7 @@ a.gear:hover {
 
 .footer {
     position: relative;
+    bottom: 0;
     margin-bottom: 0;
     background-color: #151D3B;
     text-align: center;
