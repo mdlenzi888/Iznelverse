@@ -17,8 +17,8 @@ token_request = requests.post('https://us.battle.net/oauth/token',
                               )
 access_token = token_request.json()['access_token']
 
-CURRENT_PVP_SEASON = 32
-CURRENT_MYTHIC_SEASON = 7
+CURRENT_PVP_SEASON = 33
+CURRENT_MYTHIC_SEASON = 8
 CURRENT_MYTHIC_DUNGEONS = [('De Other Side', 377),
                            ('Halls of Atonement', 378),
                            ('Mists of Tirna Scithe', 375),
@@ -113,9 +113,9 @@ class Character:
             json_response_talents = json.loads(response_talents.read())
             for spec in json_response_talents['specializations']:
                 if self.spec == spec['specialization']['name']:
-                    for talent in spec['talents']:
+                    for talent in spec['loadouts'][0]['selected_spec_talents']:
                         response_talent_img = urlopen(
-                            f"https://us.api.blizzard.com/data/wow/media/spell/{talent['spell_tooltip']['spell']['id']}?namespace=static-us&locale=en_US&access_token={access_token}")
+                            f"https://us.api.blizzard.com/data/wow/media/spell/{talent['tooltip']['spell_tooltip']['spell']['id']}?namespace=static-us&locale=en_US&access_token={access_token}")
                         json_response_talent_img = json.loads(response_talent_img.read())
 
                         self.talents['pve'].append(
@@ -190,6 +190,7 @@ class Character:
             response_mythic_plus = urlopen(
                 f"https://us.api.blizzard.com/profile/wow/character/{self.realm}/{self.name}/mythic-keystone-profile/season/{CURRENT_MYTHIC_SEASON}?namespace=profile-us&locale=en_US&access_token={access_token}")
             json_mythic_plus = json.loads(response_mythic_plus.read())
+            print(json_mythic_plus)
 
             self.mythic_plus['score'] = round(json_mythic_plus['mythic_rating']['rating'])
             if self.mythic_plus['score'] >= 2400:
@@ -254,6 +255,7 @@ class Character:
             response_raid_logs = requests.get('https://www.warcraftlogs.com/api/v2/client', headers=header,
                                               json={'query': my_data})
             json_raid_logs = response_raid_logs.json()
+            print(json_raid_logs)
 
             raid = json_raid_logs['data']['characterData']['character']['zoneRankings']
 
