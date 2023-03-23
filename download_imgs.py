@@ -15,6 +15,17 @@ access_token = requests.post('https://us.battle.net/oauth/token',
                              auth=(f'{client_id}', f'{client_secret}')
                              ).json()['access_token']
 
+CURRENT_MYTHIC_DUNGEONS = [('Temple of the Jade Serpent', 2, 313),
+                           ('Shadowmoon Burial Grounds', 165, 537),
+                           ('Halls of Valor', 200, 721),
+                           ('Court of Stars', 210, 800),
+                           ('Ruby Life Pools', 399, 1202),
+                           ('The Nokhud Offensive', 400, 1198),
+                           ("The Azure Vault", 401, 1203),
+                           ("Algeth'ar Academy", 402, 1201)]
+# (name, dungeon id, instance id)
+CURRENT_RAID = ('Vault of the Incarnates', 1200)
+
 
 def download_spec_img():
     response_all_specs = urlopen(f'https://us.api.blizzard.com/data/wow/playable-specialization/index?namespace=static-us&locale=en_US&access_token={access_token}')
@@ -67,39 +78,30 @@ def download_pvp_rating_img():
 
 
 def download_instance_img():
-    response_instances = urlopen(
-            f'https://us.api.blizzard.com/data/wow/journal-instance/index?namespace=static-us&locale=en_US&access_token={access_token}')
-    json_instances = json.loads(response_instances.read())
-
-    response_dungeons = urlopen(f'https://us.api.blizzard.com/data/wow/mythic-keystone/dungeon/index?namespace=dynamic-us&locale=en_US&access_token={access_token}')
-    json_dungeons = json.loads(response_dungeons.read())
-
-    for instance in json_instances['instances'][-20:]:
-        instance_id = instance['id']
+    for dungeon_name, dungeon_id, instance_id in CURRENT_MYTHIC_DUNGEONS:
         response_instance_img = urlopen(f"https://us.api.blizzard.com/data/wow/media/journal-instance/{instance_id}?namespace=static-us&locale=en_US&access_token={access_token}")
         json_instance_img = json.loads(response_instance_img.read())
 
         img_url = json_instance_img['assets'][0]['value']
         img_data = requests.get(img_url).content
+        with open(f'static/images/instances/instance-{instance_id}.jpg', 'wb') as handler:
+            handler.write(img_data)
 
-        keystone = False
-        for dungeon in json_dungeons['dungeons']:
-            if instance['name'] == dungeon['name']:
-                with open(f'static/images/instances/instance-{dungeon["id"]}.jpg', 'wb') as handler:
-                    handler.write(img_data)
-                keystone = True
-                break
+    raid_id = CURRENT_RAID[1]
+    response_instance_img = urlopen(f"https://us.api.blizzard.com/data/wow/media/journal-instance/{raid_id}?namespace=static-us&locale=en_US&access_token={access_token}")
+    json_instance_img = json.loads(response_instance_img.read())
 
-        if not keystone:
-            with open(f'static/images/instances/instance-{instance_id}.jpg', 'wb') as handler:
-                handler.write(img_data)
+    img_url = json_instance_img['assets'][0]['value']
+    img_data = requests.get(img_url).content
+    with open(f'static/images/instances/instance-{raid_id}.jpg', 'wb') as handler:
+        handler.write(img_data)
 
 
 def download_all():
     # download_spec_img()
-    download_character_img()
+    # download_character_img()
     # download_pvp_rating_img()
-    # download_instance_img()
+    download_instance_img()
 
 
 download_all()

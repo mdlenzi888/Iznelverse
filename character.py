@@ -17,19 +17,18 @@ token_request = requests.post('https://us.battle.net/oauth/token',
                               )
 access_token = token_request.json()['access_token']
 
-CURRENT_PVP_SEASON = 33
-CURRENT_MYTHIC_SEASON = 8
-CURRENT_MYTHIC_DUNGEONS = [('De Other Side', 377),
-                           ('Halls of Atonement', 378),
-                           ('Mists of Tirna Scithe', 375),
-                           ('Plaguefall', 379),
-                           ('Sanguine Depths', 380),
-                           ('Spires of Ascension', 381),
-                           ("Tazavesh: So'leah's Gambit", 392),
-                           ("Tazavesh: Streets of Wonder", 391),
-                           ("Theater of Pain", 382),
-                           ("The Necrotic Wake", 376)]
-CURRENT_RAID = ('Sepulcher of the First Ones', 1195)
+CURRENT_PVP_SEASON = 34
+CURRENT_MYTHIC_SEASON = 9
+CURRENT_MYTHIC_DUNGEONS = [('Temple of the Jade Serpent', 2, 313),
+                           ('Shadowmoon Burial Grounds', 165, 537),
+                           ('Halls of Valor', 200, 721),
+                           ('Court of Stars', 210, 800),
+                           ('Ruby Life Pools', 399, 1202),
+                           ('The Nokhud Offensive', 400, 1198),
+                           ("The Azure Vault", 401, 1203),
+                           ("Algeth'ar Academy", 402, 1201)]
+# (name, dungeon id, instance id)
+CURRENT_RAID = ('Vault of the Incarnates', 1200)
 RAID_DIFFICULTIES = ['Raid Finder', 'Normal', 'Heroic', 'Mythic']
 
 
@@ -45,7 +44,7 @@ class Character:
         self.guild = ""
         self.lvl = 0
         self.ilvl = 0
-        self.cov = ""
+        # self.cov = ""
         self.talents = {
             'pve': [],
             'pvp': []
@@ -60,7 +59,7 @@ class Character:
         }  # {'score': 1850, 'quality': {}, 'instances': [{'name': 'Mists', 'highest_lvl': 14, 'score': 243, 'quality': red}, etc.]}
         for dung in CURRENT_MYTHIC_DUNGEONS:
             self.mythic_plus['instances'][dung[0]] = {
-                'id': dung[1],
+                'id': dung[2],
                 'highest_lvl': '-',
                 'score': '-',
                 'quality': 'grey'
@@ -100,7 +99,7 @@ class Character:
                 pass
             self.lvl = json_char_info['level']
             self.ilvl = json_char_info['equipped_item_level']
-            self.cov = json_char_info['covenant_progress']['chosen_covenant']['name']
+            # self.cov = json_char_info['covenant_progress']['chosen_covenant']['name']
 
             print("Got Char Info")
         except urllib.error.URLError:
