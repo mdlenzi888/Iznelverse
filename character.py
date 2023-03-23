@@ -119,8 +119,8 @@ class Character:
                         json_response_talent_img = json.loads(response_talent_img.read())
 
                         self.talents['pve'].append(
-                            {'id': talent['spell_tooltip']['spell']['id'],
-                             'name': talent['spell_tooltip']['spell']['name'],
+                            {'id': talent['tooltip']['spell_tooltip']['spell']['id'],
+                             'name': talent['tooltip']['spell_tooltip']['spell']['name'],
                              'img': json_response_talent_img['assets'][0]['value']}
                         )
                     for talent in spec['pvp_talent_slots']:
