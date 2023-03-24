@@ -1,11 +1,11 @@
 # Iznelverse
 Hub for my gaming profiles and stats. Built with Flask.
-https://iznelverse.herokuapp.com/
+https://iznelverse.onrender.com/
 
 *IMPORTANT*
 
-The website is hosted on Heroku and will sleep after 30 minutes of inactivity. 
-Upon waking up, the API fetching function will take about 2min to finish.
+The website is hosted on Render and will sleep after 30 minutes of inactivity. 
+Upon waking up, the initial API fetching function will take up to a minute to finish.
 During this time, the website will be unavailable.
 
-I am hoping to fix this in the future.
+I will be optimizing this in the future.
