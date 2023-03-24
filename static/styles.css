@@ -6,6 +6,7 @@ body {
 .main-content {
     margin-top: 56px;
     margin-left: 240px;
+    min-height: 100%
 }
 
 div#loading {
@@ -32,6 +33,11 @@ div#loading {
     color: #6EBF8B;
 }
 
+#content {
+    position: relative;
+    min-height: 100%;
+}
+
 #sidebarMenu {
     background-color: #3e4663;
     border-style: none solid solid;
@@ -47,11 +53,10 @@ div#loading {
 .sidebar {
     position: absolute;
     display: inline-block;
-    top: 56px;
     left: 0;
-    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%), 0;
     width: 240px;
-    height: 1500px;
+    min-height: 100%;
     z-index: 100;
     overflow: hidden;
 }
@@ -68,8 +73,8 @@ div#loading {
     }
     .main-content {
         position: relative;
-        margin-top: 50px;
         margin-left: 0;
+        margin-top: 20px;
     }
     .portrait-box {
         display: none;
@@ -230,7 +235,7 @@ a, a:hover {
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 1300px;
+    min-height: 1300px;
 }
 
 .card {
@@ -410,13 +415,12 @@ a.gear:hover {
 
 .footer {
     position: relative;
-    bottom: 0;
-    margin-bottom: 0;
     background-color: #151D3B;
     text-align: center;
     padding: 30px;
     font-size: 14px;
     z-index: 999;
+    bottom: 0;
 }
 
 .grey {

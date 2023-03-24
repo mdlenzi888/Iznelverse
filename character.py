@@ -157,28 +157,33 @@ class Character:
             self.get_gear()
 
     def get_pvp_ratings(self):
-        brackets = ['2v2', '3v3', 'rBG']
-        for bracket in brackets:
+        brackets = {
+            'Solo': f'shuffle-{self.char_class.lower()}-{self.spec.lower()}',
+            '2v2': '2v2',
+            '3v3': '3v3',
+            'rBG': 'rbg'
+            }
+        for title, code in brackets.items():
             try:
                 response_pvp_ratings = urlopen(
-                    f"https://us.api.blizzard.com/profile/wow/character/{self.realm}/{self.name}/pvp-bracket/{bracket.lower()}?namespace=profile-us&locale=en_US&access_token={access_token}")
+                    f"https://us.api.blizzard.com/profile/wow/character/{self.realm}/{self.name}/pvp-bracket/{code}?namespace=profile-us&locale=en_US&access_token={access_token}")
                 json_pvp_ratings = json.loads(response_pvp_ratings.read())
 
                 if json_pvp_ratings['season']['id'] == CURRENT_PVP_SEASON:
                     self.pvp_ratings.append({
-                        'bracket': bracket,
+                        'bracket': title,
                         'rating': json_pvp_ratings['rating'],
                         'tier': json_pvp_ratings['tier']['id']
                     })
                 else:
                     self.pvp_ratings.append({
-                        'bracket': bracket,
+                        'bracket': title,
                         'rating': 0,
                         'tier': 1
                     })
             except urllib.error.URLError:
                 self.pvp_ratings.append({
-                    'bracket': bracket,
+                    'bracket': title,
                     'rating': 0,
                     'tier': 1
                 })

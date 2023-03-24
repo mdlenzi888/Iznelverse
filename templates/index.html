@@ -31,7 +31,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-sm fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-sm" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="{{url_for('home')}}">Iznelverse</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('stats', character='bontoto') }}">World of Warcraft</a>
+                        <a class="nav-link" href="{{ url_for('stats', character='gidden') }}">World of Warcraft</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">TBD</a>
@@ -152,7 +152,7 @@
                         <div class="card-body">
                             <div class="row">
                                 {% for rating in character.pvp_ratings %}
-                                <div class="pvp-rating-col col-sm-4">
+                                <div class="pvp-rating-col col-sm-3">
                                     <h3 class="pvp-rating-title">{{ rating['bracket'] }}</h3>
                                     <div class="pvp-rating-box">
                                         <img src="/static/images/pvp-tiers/tier-{{ rating['tier'] }}.jpg">
@@ -209,10 +209,10 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="footer">
-            © 2022 Matthew Lenzi
-        </div>
+    <div class="footer">
+        © 2023 Matthew Lenzi
     </div>
 </body>
 </html>
