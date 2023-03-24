@@ -180,7 +180,6 @@ class Character:
             response_mythic_plus = urlopen(
                 f"https://us.api.blizzard.com/profile/wow/character/{self.realm}/{self.name}/mythic-keystone-profile/season/{CURRENT_MYTHIC_SEASON}?namespace=profile-us&locale=en_US&access_token={access_token}")
             json_mythic_plus = json.loads(response_mythic_plus.read())
-            print(json_mythic_plus)
 
             self.mythic_plus['score'] = round(json_mythic_plus['mythic_rating']['rating'])
             if self.mythic_plus['score'] >= 2400:
@@ -245,7 +244,6 @@ class Character:
             response_raid_logs = requests.get('https://www.warcraftlogs.com/api/v2/client', headers=header,
                                               json={'query': my_data})
             json_raid_logs = response_raid_logs.json()
-            print(json_raid_logs)
 
             raid = json_raid_logs['data']['characterData']['character']['zoneRankings']
 
