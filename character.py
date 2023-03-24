@@ -113,24 +113,14 @@ class Character:
             for spec in json_response_talents['specializations']:
                 if self.spec == spec['specialization']['name']:
                     for talent in spec['loadouts'][0]['selected_spec_talents']:
-                        response_talent_img = urlopen(
-                            f"https://us.api.blizzard.com/data/wow/media/spell/{talent['tooltip']['spell_tooltip']['spell']['id']}?namespace=static-us&locale=en_US&access_token={access_token}")
-                        json_response_talent_img = json.loads(response_talent_img.read())
-
                         self.talents['pve'].append(
                             {'id': talent['tooltip']['spell_tooltip']['spell']['id'],
-                             'name': talent['tooltip']['spell_tooltip']['spell']['name'],
-                             'img': json_response_talent_img['assets'][0]['value']}
+                             'name': talent['tooltip']['spell_tooltip']['spell']['name']}
                         )
                     for talent in spec['pvp_talent_slots']:
-                        response_talent_img = urlopen(
-                            f"https://us.api.blizzard.com/data/wow/media/spell/{talent['selected']['spell_tooltip']['spell']['id']}?namespace=static-us&locale=en_US&access_token={access_token}")
-                        json_response_talent_img = json.loads(response_talent_img.read())
-
                         self.talents['pvp'].append(
                             {'id': talent['selected']['spell_tooltip']['spell']['id'],
-                             'name': talent['selected']['spell_tooltip']['spell']['name'],
-                             'img': json_response_talent_img['assets'][0]['value']}
+                             'name': talent['selected']['spell_tooltip']['spell']['name']}
                         )
             print("Got Talents")
         except urllib.error.URLError:
@@ -142,15 +132,11 @@ class Character:
                 f"https://us.api.blizzard.com/profile/wow/character/{self.realm}/{self.name}/equipment?namespace=profile-us&locale=en_US&access_token={access_token}")
             json_response_gear = json.loads(response_gear.read())
             for item in json_response_gear['equipped_items']:
-                response_gear_img = urlopen(
-                    f"https://us.api.blizzard.com/data/wow/media/item/{item['item']['id']}?namespace=static-us&locale=en_US&access_token={access_token}")
-                json_response_gear_img = json.loads(response_gear_img.read())
                 self.gear.append({
                     'id': item['item']['id'],
                     'name': item['name'],
                     'ilvl': item['level']['value'],
                     'quality': item['quality']['name'].lower(),
-                    'img': json_response_gear_img['assets'][0]['value'],
                 })
             print("Got Gear")
         except urllib.error.URLError:

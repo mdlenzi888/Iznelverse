@@ -99,9 +99,9 @@ def download_instance_img():
 
 def download_all():
     # download_spec_img()
-    # download_character_img()
+    download_character_img()
     # download_pvp_rating_img()
-    download_instance_img()
+    # download_instance_img()
 
 
 download_all()

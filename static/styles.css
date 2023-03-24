@@ -4,7 +4,6 @@ body {
 }
 
 .main-content {
-    margin-top: 56px;
     margin-left: 240px;
     min-height: 100%
 }
@@ -13,7 +12,7 @@ div#loading {
     position: relative;
     margin: 100px auto;
     width: 100px;
-    height: 1100px;
+    min-height: 500px;
     display: none;
     background: url('/static/images/loading.gif') top transparent;
     background-repeat: no-repeat;
@@ -70,11 +69,12 @@ div#loading {
     .list-group, .list-group-item {
         display: inline;
         border: none;
+        padding: 10px;
     }
     .main-content {
         position: relative;
         margin-left: 0;
-        margin-top: 20px;
+        top: -8px;
     }
     .portrait-box {
         display: none;
@@ -144,6 +144,12 @@ div#loading {
     border-color: #151D3B;
     height: 180px;
     padding: 20px;
+}
+
+@media (max-width: 991.98px) {
+    .character-banner {
+        border-style: none solid solid;
+    }
 }
 
 .character-avatar-box {
