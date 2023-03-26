@@ -25,7 +25,7 @@ def update_characters():
         update_character(key)
 
 
-@cache.cached(timeout=1209600, key_prefix='update')  # store cache for 2 weeks
+# @cache.cached(timeout=1209600, key_prefix='update')  # store cache for 2 weeks
 def update_character(name):
     char_object = Character(name)
 
