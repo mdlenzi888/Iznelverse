@@ -58,7 +58,7 @@ def stats(character):
 def update(character):
     try:
         update_character(character)
-    except urllib.error.URLError:
+    except (urllib.error.URLError, EOFError):
         pass
     return redirect(url_for('stats', character=character, time=character_objects[character][1]))
 

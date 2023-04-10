@@ -10,9 +10,9 @@ body {
 
 div#loading {
     position: relative;
-    margin: 100px auto;
+    margin: 100px auto 100px;
     width: 100px;
-    min-height: 500px;
+    min-height: 490px;
     display: none;
     background: url('/static/images/loading.gif') top transparent;
     background-repeat: no-repeat;
@@ -39,7 +39,8 @@ div#loading {
 
 #sidebarMenu {
     background-color: #3e4663;
-    border-style: none solid solid;
+    border-style: none solid none;
+    border-style: none solid none;
     border-color: #151D3B;
 }
 
@@ -327,9 +328,9 @@ a.gear:hover {
 
 .pvp-rating-box {
     background-color: #3e4663;
-    width: 100px;
+    max-width: 100px;
     margin: auto;
-    padding: 15px 15px 5px;
+    padding: 15px 0 5px;
     border-style: solid;
     border-radius: 20%;
     border-color: #151D3B;
