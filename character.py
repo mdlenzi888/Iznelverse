@@ -75,6 +75,9 @@ class Character:
             'bosses': []
         }  # {'name': 'Seplechur of The First Ones', 'id': 1195, 'progress': {'difficulty': 'normal', 'count': '9/11'}, 'bosses': [{'name': Vigilante Guardians, 'parse': 45}, etc.]}
 
+        self.get_all()
+
+    def get_all(self):
         self.get_char_info()
         self.get_talents()
         self.get_gear()

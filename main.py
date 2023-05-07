@@ -7,7 +7,6 @@ from flask import Flask, render_template, redirect, url_for
 from flask_cors import CORS, cross_origin
 from flask_caching import Cache
 
-
 app = Flask(__name__)
 app.config['CACHE_TYPE'] = 'simple'  # Key = function inputs, Value = response
 
@@ -27,8 +26,11 @@ def update_characters():
 
 # @cache.cached(timeout=1209600, key_prefix='update')  # store cache for 2 weeks
 def update_character(name):
-    char_object = Character(name)
-
+    try:
+        char_object = Character(name)
+    except EOFError:
+        character_objects[name].get_all()
+        char_object = character_objects[name][0]
     central_time = pytz.timezone('US/Central')
     now = dt.datetime.now(central_time)
     current_time = now.strftime('%#m/%#d/%Y %#I:%M%p')
@@ -49,7 +51,8 @@ def home():
 @app.route('/stats/<character>')
 @cross_origin()
 def stats(character):
-    return render_template('index.html', character=character_objects[character][0], time=character_objects[character][1],
+    return render_template('index.html', character=character_objects[character][0],
+                           time=character_objects[character][1],
                            character_list=characters)
 
 
