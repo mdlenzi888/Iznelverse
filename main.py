@@ -26,11 +26,8 @@ def update_characters():
 
 # @cache.cached(timeout=1209600, key_prefix='update')  # store cache for 2 weeks
 def update_character(name):
-    try:
-        char_object = Character(name)
-    except EOFError:
-        character_objects[name].get_all()
-        char_object = character_objects[name][0]
+    char_object = Character(name)
+
     central_time = pytz.timezone('US/Central')
     now = dt.datetime.now(central_time)
     current_time = now.strftime('%#m/%#d/%Y %#I:%M%p')
