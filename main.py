@@ -42,7 +42,7 @@ update_characters()
 @app.route('/')
 @cross_origin()
 def home():
-    return redirect(url_for('stats', character='gidden'))
+    return redirect(url_for('stats', character='finito'))
 
 
 @app.route('/stats/<character>')
