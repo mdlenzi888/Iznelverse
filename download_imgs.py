@@ -15,16 +15,16 @@ access_token = requests.post('https://us.battle.net/oauth/token',
                              auth=(f'{client_id}', f'{client_secret}')
                              ).json()['access_token']
 
-CURRENT_MYTHIC_DUNGEONS = [('Temple of the Jade Serpent', 2, 313),
-                           ('Shadowmoon Burial Grounds', 165, 537),
-                           ('Halls of Valor', 200, 721),
-                           ('Court of Stars', 210, 800),
-                           ('Ruby Life Pools', 399, 1202),
-                           ('The Nokhud Offensive', 400, 1198),
-                           ("The Azure Vault", 401, 1203),
-                           ("Algeth'ar Academy", 402, 1201)]
+CURRENT_MYTHIC_DUNGEONS = [('Uldaman: Legacy of Tyr', 403, 1197),
+                           ('The Vortex Pinnacle', 438, 68),
+                           ('The Underrot', 251, 1022),
+                           ('Neltharus', 404, 1199),
+                           ("Neltharion's Lair", 206, 767),
+                           ('Halls of Infusion', 406, 1204),
+                           ("Freehold", 245, 1001),
+                           ('Brackenhide Hollow', 405, 1196)]
 # (name, dungeon id, instance id)
-CURRENT_RAID = ('Vault of the Incarnates', 1200)
+CURRENT_RAID = ('Aberrus, The Shadowed Crucible', 1208)
 
 
 def download_spec_img():
